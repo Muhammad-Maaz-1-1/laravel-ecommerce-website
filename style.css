@@ -1,0 +1,589 @@
+audio#audioPlayer {
+    width: 100%;
+}
+div#surahUrduTrjumah, #surahContainer {
+    background: #552809;
+    border-radius: 10px !important;
+	    color: #fff !important;
+    padding: 10px 0px 0px;
+    height: auto;
+}
+
+
+div#surahUrduTrjumah p, div#surahContainer p {
+    padding: 0px 11px;
+}
+div#surahContainer p {
+    font-family: "Arabic Typesetting" !important;
+}
+div#audioContainer {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.quranInnerWrap {
+    height: 60vh;
+    overflow: auto;
+    margin-bottom: 50px;
+}
+.quranInnerWrap div {
+   width: 540px !important;
+}
+.quranInnerWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.quran table th {
+    background: #552809 !important;
+    color: #fff;
+    text-align: center;
+}
+
+.quran table tr:nth-child(even) {
+    background-color: #f1ebe4;
+}
+
+.quran table td {
+    color: #552809 !important;
+    padding: 12px 0;
+    margin: 0;
+    text-align: center;
+}
+#ramadan-timings-table2 tbody:nth-child(even) {
+    background-color: #f1ebe4;
+}
+table#ramadan-timings-table2 th {
+    background: #552809 !important;
+    color: #fff;
+    text-align: center;
+}
+
+table#ramadan-timings-table2 td {
+    color: #552809 !important;
+    padding: 12px 0;
+    margin: 0;
+    text-align: center;
+}
+h1#headingName, .newNamaz {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+	margin-bottom:30px;
+	    background-color: transparent;
+	line-height:3;
+	justify-content:center;
+}
+/*  sehri iftari*/
+.locationBaseTiming h1 {
+       display: flex;
+    text-align: center;
+    background-color: #f1ebe4;
+    font-size: 32px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.locationBaseTiming p {
+        padding: 20px;
+    font-size: 42px;
+    text-align: center;
+    flex: 1;
+    line-height: 60px;
+    margin: 0;
+}
+
+.locationBaseTiming strong {
+    background-color: #673208;
+    color: #fff;
+    padding: 10px;
+    margin: 0;
+    line-height: 80px;
+    flex: 1;
+}
+h2#cityName {
+    text-align: right;
+}
+
+
+/*  */
+
+
+
+div#\33 0DaysTimings table tr th, .ramadan-timings table tr th {
+    background: #552809 !important;
+    color: #fff;
+	text-align:center;
+}
+div#\33 0DaysTimings table td p:nth-child(even), .ramadan-timings table tbody tr:nth-child(even){background-color: #f1ebe4;}
+
+.ramadan-timings table {
+    margin-top: 30px;
+}
+
+.ramadan-timings td, div#\33 0DaysTimings table td p {
+    color: #552809 !important;
+	padding:12px 0;
+	margin:0px;
+	text-align:center;
+}
+
+
+.city-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.city-tabs a {
+    background:transparent;
+    color: #552809 !important;
+	border:1px solid #552809;
+    border-radius: 5px;
+    padding: 10px 20px 21px;
+    line-height: 1;
+    display: block;
+}
+div#\33 0DaysTimings table td p{
+	border-bottom:1px solid #e9e9e9 !important;
+}
+div#\33 0DaysTimings table tr td {
+    padding: 0px;
+	border:none;
+}
+
+
+div#\33 0DaysTimings table tr th, .ramadan-timings table, .ramadan-timings table th {
+    border: 1px solid #e9e9e95e;
+}
+.city-tabs a.active, .city-tabs a:hover{
+	 background: #552809;
+    color: #fff !important;
+}
+
+
+
+
+
+
+
+
+body div div#mypost-content1 .ref, html body div span.ref, html body main#main div#content-wrap div span.ref {
+    font-family: "Arabic Typesetting" !important;
+}
+
+.contentCopieds #outcntn{
+animation:backgroundChange 2s ease-in-out 0s 1 normal forwards;
+    padding: 10px;
+}
+@keyframes backgroundChange{0%{background-color:black}100%{background-color:transparent !important}}
+.zeeshan-button-top:hover {
+    scale: 1 !important;
+    background-color: #673208 !important;
+}
+.zeeshan-button-top {
+    color: #FFF3B5;
+    font-size: .7em;
+    background-color: #673208;
+    padding: 10px;
+    width: max-content;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    margin: 10px 0;
+    border-color: #000;
+    transition: all 300ms;
+}
+
+copy-button::before {
+    opacity: 1;
+}
+.contentCopied #copy-button::before {
+    opacity: 1;
+    animation: fadeOut 1s 3s forwards;
+}
+#copy-button::before {
+    content: "Copied";
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fdd835;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+div#content-wrap aside#right-sidebar{
+	display:none;
+}
+.entry-content span.uarabic1w {
+    font-family: "Arabic Typesetting" !important;
+}
+.entry-content.clr * {
+    font-family: Jameel Noori Nastaleeq,Alvi Nastaleeq,Alvi Lahori Nastaleeq,Faiz Lahori Nastaleeq,Tahoma !important;
+}
+div#mypost-content1 .uarabic1w {
+    font-family: "Arabic Typesetting" !important;
+    font-size: 32px;
+    line-height: 34px;
+    color: #6633CC;
+}
+.blog-entry-readmore.clr a::after {
+    padding: 13px 13px;
+}
+.swp_social_panel:not(.nc_floater):not(.swp_social_panelSide) {
+    width: 100% !important;
+    display: none;
+}
+.blfe-post-list-item .blfe-post-category{
+	visibility: hidden; !important
+}
+/*.eael-grid-post:hover{
+	background-color: #E2BF5F; !important
+	color: #8D5024; !important
+}*/
+.eael-entry-wrapper:hover{
+	background-color: #673208; !important
+}
+#eael-entry-title{
+	color:white;
+}
+.zeeshan-button-top {
+	color: #FFF3B5 !important;}
+select {
+    background-color: #673208; !important
+}
+.elementor-element.elementor-grid-eael-col-3 .eael-grid-post:nth-of-type(3n + 1) {
+    clear: right;
+    float: right;
+}
+.wabtn_container {
+    margin-bottom: 10px;
+    margin-left: 29%; !important
+}
+.oceanwp-mobile-menu-icon .oceanwp-text::after {
+    content: "مینوبار"; !important
+    font-size: 24px;
+}
+div#mypost-content p, #outcntn{
+	transition:.5s;
+}
+body div div#mypost-content1 .ref {
+    font-family: "Arabic Typesetting" !important;
+}
+.popularPost ul li a:hover{
+	    background-color: #64310DB5;
+}
+button#whatsapp-share-button {
+    display: block !important;
+}
+
+
+ #copy-button::before {
+  content: "Copied";
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fdd835;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.contentCopied #copy-button::before {
+  opacity: 1;
+
+  animation: fadeOut 1s 3s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.zeeshan-button-top:hover {
+    scale: 1 !important;
+    background-color: #673208 !important;}
+	.site-main {
+    padding-top: 109px;
+}
+    color: #F5DEB3 !important;
+}
+section.elementor-section.elementor-top-section.elementor-element.elementor-element-7bd9f77.elementor-section-boxed.elementor-section-height-default.elementor-section-height-default {
+    display: none !important;
+}
+body #main #content-wrap{
+    padding-top: 7px !important;
+}
+a, span, li, h1, h2, h3, h4, h5, h6, b, strong, div, select, input, button, #site-navigation-wrap .dropdown-menu >li >a {
+    font-family: "Noto Nastaliq Urdu", Sans-serif !important;
+}
+.fa-angle-down, .fa-angle-down:before, #site-navigation-wrap .dropdown-menu>li>a .nav-arrow{
+    font-family:"Font Awesome 5 Free" !important;
+}
+#site-navigation-wrap .dropdown-menu>li {
+    float: right;
+ 
+}
+
+div#sidr,a.sidr-class-toggle-sidr-close {
+    background: #773909;
+}
+
+.sidr a, .sidr-class-dropdown-toggle{
+	color:#fff3b5;
+}
+
+#site-navigation-wrap .dropdown-menu >li >a {
+    font-size: 15px !important;
+}
+div#mypost-content1 * {
+    font-family: Jameel Noori Nastaleeq,Alvi Nastaleeq,Alvi Lahori Nastaleeq,Faiz Lahori Nastaleeq,Tahoma !important;
+}
+.tptn_counter {
+  
+    float: right;
+}
+
+h2.single-post-title.entry-title {
+    font-size: 36px !important;
+    padding: 30px 0 30px;
+
+}
+.oceanwp-row.clr a, .related-post-title, .related-post-title a{
+    font-size: 20px !important;
+    color: #673208 !important;
+}
+#sidr form{
+	display:none;
+}
+.save-as-pdf-pdfcrowd-button-wrap.pdfcrowd-remove.save-as-pdf-pdfcrowd-reset {
+    text-align: right !important;
+}
+.save-as-pdf-pdfcrowd-button-wrap.pdfcrowd-remove.save-as-pdf-pdfcrowd-reset {
+    position: relative;
+    top: 135px;
+right:140px;
+
+    position: relative;
+    cursor: pointer !important;
+   
+    border-color: #000;
+    transition: all 300ms;
+}
+.save-as-pdf-pdfcrowd-button{
+	padding:12px 10px !important;
+}
+a.pdfprnt-button.pdfprnt-button-print.no-lightbox {
+    display: none;
+}
+
+/*  */
+
+.contentCopieds div#mypost-content {
+    animation:backgroundChange 2s ease-in-out 0s 1 normal forwards;
+	padding:10px;
+    
+}
+div#mypost-content{
+	transition:.5s;
+}
+
+@keyframes backgroundChange {
+  0% {
+    background-color: black;
+  }
+  100% {
+    background-color: transparent !important;
+  }
+}
+.contentCopieds div#mypost-content p{
+    animation:textChange 2s ease-in-out 0s 1 normal forwards;
+}
+
+@keyframes textChange {
+  0% {
+    color: #fff;
+  }
+  100% {
+    color:#000;
+  }
+}
+
+.contentCopieds #copy-button::before{
+	opacity:1;
+}
+
+.dropdown-menu ul li a.menu-link, #site-header.full_screen-header .fs-dropdown-menu ul.sub-menu li a, .elementor-6138 .elementor-element.elementor-element-bbf8f70 .eael-entry-title a, .elementor-7279 .elementor-element.elementor-element-4ee388b .elementor-heading-title, .popularPost ul li a {
+    font-size: 15px !important;
+}
+article .postIcon {
+      order: 16 !important;
+    position: absolute;
+    bottom: 517px;
+    left: -62px;
+	display:none;
+    width: 100%;
+    justify-content: center !important;
+	
+}
+.site-content article {
+  display: flex;
+  flex-direction: column;
+}
+
+#scroll-top{
+	bottom:80px;
+}
+
+}
+#scroll-top .fa-angle-up:before {
+    content: '' !important;
+    background-image: url(https://tohed.com/wp-content/uploads/2023/09/icons8-arrow-64.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 27px;
+	height: 27px;
+	transform:rotate(-90deg);
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    right: 0;
+}
+.zeeshan-button-top i {
+    margin-left: 10px;
+}
+.d-flex.justify-content-center.w-100 {
+justify-content:center !important;
+    margin-right: 117px;
+}
+.zeeshan-button-top {
+    margin: 8px 0px;
+}
+
+
+@media only screen and (max-width: 480px){
+#scroll-top {
+    width: 40px !important;
+    height: 40px !important;
+}
+}
+.related-posts-title .text::after{
+	color:#673208 !important;
+}
+#cityName * {
+  background: transparent;
+  color: inherit;
+ 
+}
+	@media only screen and (max-width: 767px) {
+        #city-dropdown{margin-top: 15px;}
+        .ramadan-timings table{
+            margin-top: 0px;
+        }
+        .ramadan-timings > select {
+            margin-bottom: 15px;
+          }
+        .ramadan-timings select {
+            padding: 10px !important;
+            height: 100%;
+          }
+html body.page-template-default #ramadan-timings-table2 tr th, html body.page-template-default .ramadan-timings table tr th, html body.page-template-default .quran tr th{
+    padding-bottom: 10px;
+}
+        .ramadan-timings > h2{
+            margin-bottom: 50px !important;
+        }
+        html body h1#headingName, .newNamaz {
+            font-size: 40px !important;
+            line-height: 1.5;
+          }
+		html body.page-template-default #ramadan-timings-table2 *, html body.page-template-default .ramadan-timings table *,  html body.page-template-default .quran *{
+  font-size: 4vw !important;
+  padding: 3px 5px;
+}
+#todayDate p, #todayDate2 p {
+  font-size: 24px !important;
+  line-height: 1 !important;
+  padding: 26px 0px 10px;
+}
+.locationBaseTiming strong {
+  line-height: 65px !important;
+
+}
+html body #cityNamewithdate {
+    font-size: 14px;
+  }
+#cityName * {
+  font-size: 23px !important;
+  line-height: 2 !important;
+ 
+}
+		.quranInnerWrap{
+align-items: start;
+height: 100% !important;
+flex-direction: column-reverse !important;
+gap: 12px; 
+		}
+        html body #surahContainer, html body #surahUrduTrjumah{
+            height: 50vh !important;
+            overflow: scroll !important;
+        }
+		.quranInnerWrap div {
+    width: 100% !important;
+}
+		div#surahUrduTrjumah p, #surahContainer p {
+    font-size: 19px !important;
+}
+ .postIcon {
+  bottom: 347vh !important;
+}
+		.d-flex.justify-content-center.w-100{
+			margin-right:0px !important;
+		}
+		article .postIcon{
+
+  left: 0;
+			justify-content: flex-end !important;
+  flex-wrap: wrap;
+}
+	
+}
+@media only screen and (max-width: 1200px) {
+	article .postIcon{
+		display:none !important;
+		bottom: 545px;
+		left:0px;
+	}
+	.d-flex.justify-content-center.w-100 {
+  justify-content: center !important;
+ 
+}
+}
+@media only screen and (max-width: 1300px) {
+
+.d-flex.justify-content-center.w-100 {
+  justify-content: flex-end !important;
+	margin-right:0px;
+ 
+}
+header#site-header {
+    background-image: url(https://tohed.com/wp-content/uploads/2023/10/header-banner-1.gif) !important;
+	}
+a.eael-grid-post-link::focus{outline:none !important;}
+ 
+}

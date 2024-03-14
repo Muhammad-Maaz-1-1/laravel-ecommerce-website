@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2 class="newNamaz" id="cruntCityNameNew"></h2>
+    <table id="ramadan-timings-table2">
+        <tr>
+            <th>عشاء</th>
+            <th>مغرب</th>
+            <th>عصر</th>
+            <th>ظہر</th>
+            <th>فجر</th>
+            <th>تاریخ</th>
+        </tr>
+    </table>
+    <div class="ramadan-timings">
+        <h2>دیگر شہروں اور ملکوں کے اوقات سحری و افطار جاننے کے لیئے مطلوبہ شہر اور ملک کا انتخاب کیجیے
+        </h2>
+        <label for="country-dropdown">ملک کا انتخاب کیجیے</label>
+        <select id="country-dropdown" onchange="updateCities()">
+            <option value="Select Country" selected id="mycountry">ملک کا انتخاب کیجیے</option>
+        </select>
+
+        <label for="city-dropdown">شہر کا انتخاب کیجیے</label>
+        <select id="city-dropdown">
+            <option value="Select City" selected id="mycity">شہر کا انتخاب کیجیے</option>
+        </select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Isha</th>
+                    <th>Maghrib</th>
+                    <th>Asr</th>
+                    <th>Dhuhr</th>
+                    <th>Fajar</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="ramadan-timings-table"></tbody>
+        </table>
+    </div>
+    <script>
+        // Function to format date as YYYY-MM-DD for comparison
+        function formatDateForComparison(dateString) {
+            var date = new Date(dateString);
+            var day = String(date.getDate()).padStart(2, '0');
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var month = monthNames[date.getMonth()];
+            var year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+
+        function getCurrentMonth() {
+            var currentDate = new Date();
+            var currentMonth = currentDate.getMonth() + 1;
+            return currentMonth;
+        }
+
+        function getCurrentYear() {
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear();
+            return currentYear;
+        }
+
+        // First, fetch client IP, city, and country
+        fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                var clientCity = data.city;
+                var clientCountry = data.country;
+                var currentMonth = getCurrentMonth();
+                var currentYear = getCurrentYear();
+                fetch(
+                    `https://api.aladhan.com/v1/calendarByCity/${currentYear}/${currentMonth}?city=${clientCity}&country=${clientCountry}&method=1`)
+                    .then(response => response.json())
+                    .then(prayerData => {
+                        var today = formatDateForComparison(new Date());
+                        var prayerTimesdate = document.getElementById('prayerTimesdate');
+                        var prayerTimessehri = document.getElementById('prayerTimessehri');
+                        var prayerTimesaftari = document.getElementById('prayerTimesaftari');
+                        var prayerTimesDiv = document.getElementById('prayerTimes');
+                        var todayDateHeading = document.getElementById('todayDate');
+                        var cityName = document.getElementById('cityName');
+                        var ramadanTiming = document.getElementById('ramadanTiming');
+                        var headingName = document.getElementById('headingName');
+                        var todayDateHeading2 = document.getElementById('todayDate2');
+                        var timingsTable = document.getElementById('ramadan-timings-table2');
+                        var cruntCityNameNew = document.getElementById('cruntCityNameNew');
+                        cruntCityNameNew.innerHTML = ` <p>${clientCity} نماز کے اوقات</p>`;
+                        for (var i = 0; i < prayerData.data.length; i++) {
+                            console.log(prayerData.data.Fajr);
+                            var date = prayerData.data[i].date.readable;
+                            var formattedDate = formatDateForComparison(prayerData.data[i].date.gregorian.date);
+
+                            console.log(prayerData.data[i].timings.Fajr);
+                            var sehriTime = prayerData.data[i].timings.Fajr;
+                            var iftarTime = prayerData.data[i].timings.Maghrib;
+                            const sehriTimenew = sehriTime.replace(/\s*\(PKT\)/, '');
+                            const iftarTimenew = iftarTime.replace(/\s*\(PKT\)/, '');
+                            // Example time string: "18:05"
+                            const timeString = iftarTimenew;
+
+                            // Extract hours and minutes
+                            const [hours, minutes] = timeString.split(':');
+
+                            // Convert to 12-hour format
+                            const ampm = hours >= 12 ? 'pm' : 'am';
+                            const formattedHours = hours % 12 || 12; // Handle 12:00 PM as 12:00 PM, not 00:00 PM
+                            const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+                            // if (date >= today) {
+                            var row = `<tr><td>${formatTime(prayerData.data[i].timings.Isha)}</td><td>${formatTime(prayerData.data[i].timings.Maghrib)}</td><td>${formatTime(prayerData.data[i].timings.Asr)}</td><td>${formatTime(prayerData.data[i].timings.Dhuhr)}</td><td>${formatTime(prayerData.data[i].timings.Fajr)}</td><td>${date}</td></tr>`;
+                            timingsTable.innerHTML += row;
+                            // }
+
+                        }
+                    })
+                    .catch(error => console.error('Error fetching prayer times:', error));
+            })
+            .catch(error => console.error('Error fetching IP address:', error));
+
+        function getNext30Days(today) {
+            var next30Days = new Date(today);
+            next30Days.setDate(next30Days.getDate() + 30);
+            return formatDateForComparison(next30Days);
+        }
+    </script>
+    <script>
+        var countries = [
+            'pakistan', 'usa', 'uk', 'canada', 'australia', 'germany', 'france', 'japan',
+            'brazil', 'south africa', 'south korea', 'russia', 'china', 'mexico', 'india',
+            'afghanistan', 'albania', 'algeria', 'andorra', 'angola', 'antigua and barbuda',
+            'argentina', 'armenia', 'austria', 'azerbaijan', 'bahamas', 'bahrain', 'bangladesh',
+            'barbados', 'belarus', 'belgium', 'belize', 'benin', 'bhutan', 'bolivia',
+            'bosnia and herzegovina', 'botswana', 'brazil', 'brunei', 'bulgaria', 'burkina faso',
+            'burundi', 'cabo verde', 'cambodia', 'cameroon', 'canada', 'central african republic',
+            'chad', 'chile', 'china', 'colombia', 'comoros', 'congo', 'costa rica', 'croatia',
+            'cuba', 'cyprus', 'czech republic', 'denmark', 'djibouti', 'dominica', 'dominican republic',
+            'east timor', 'ecuador', 'egypt', 'el salvador', 'equatorial guinea', 'eritrea', 'estonia',
+            'ethiopia', 'fiji', 'finland', 'france', 'gabon', 'gambia', 'georgia', 'germany', 'ghana',
+            'greece', 'grenada', 'guatemala', 'guinea', 'guinea-bissau', 'guyana', 'haiti', 'honduras',
+            'hungary', 'iceland', 'india', 'indonesia', 'iran', 'iraq', 'ireland', 'israel', 'italy',
+            'jamaica', 'japan', 'jordan', 'kazakhstan', 'kenya', 'kiribati', 'korea, north', 'korea, south',
+            'kosovo', 'kuwait', 'kyrgyzstan', 'laos', 'latvia', 'lebanon', 'lesotho', 'liberia', 'libya',
+            'liechtenstein', 'lithuania', 'luxembourg', 'macedonia', 'madagascar', 'malawi', 'malaysia',
+            'maldives', 'mali', 'malta', 'marshall islands', 'mauritania', 'mauritius', 'mexico', 'micronesia',
+            'moldova', 'monaco', 'mongolia', 'montenegro', 'morocco', 'mozambique', 'myanmar', 'namibia', 'nauru',
+            'nepal', 'netherlands', 'new zealand', 'nicaragua', 'niger', 'nigeria', 'norway', 'oman', 'pakistan',
+            'palau', 'panama', 'papua new guinea', 'paraguay', 'peru', 'philippines', 'poland', 'portugal', 'qatar',
+            'romania', 'russia', 'rwanda', 'saint kitts and nevis', 'saint lucia', 'saint vincent and the grenadines',
+            'samoa', 'san marino', 'sao tome and principe', 'saudi arabia', 'senegal', 'serbia', 'seychelles', 'sierra leone',
+            'singapore', 'slovakia', 'slovenia', 'solomon islands', 'somalia', 'south africa', 'south korea', 'south sudan',
+            'spain', 'sri lanka', 'sudan', 'suriname', 'swaziland', 'sweden', 'switzerland', 'syria', 'taiwan', 'tajikistan',
+            'tanzania', 'thailand', 'togo', 'tonga', 'trinidad and tobago', 'tunisia', 'turkey', 'turkmenistan', 'tuvalu',
+            'uganda', 'ukraine', 'united arab emirates', 'united kingdom', 'united states of america', 'uruguay', 'uzbekistan',
+            'vanuatu', 'vatican city', 'venezuela', 'vietnam', 'yemen', 'zambia', 'zimbabwe'
+        ];
+        // Get the country and city dropdown elements
+        var countryDropdown = document.getElementById('country-dropdown');
+        var cityDropdown = document.getElementById('city-dropdown');
+
+        // Populate the country dropdown
+        for (var i = 0; i < countries.length; i++) {
+            var countryName = countries[i];
+            var option = document.createElement('option');
+            option.value = countryName;
+            option.text = countryName.charAt(0).toUpperCase() + countryName.slice(1);
+            countryDropdown.appendChild(option);
+        }
+
+        // Function to update cities based on the selected country
+        function updateCities() {
+            var selectedCountry = countryDropdown.value;
+            var cityOptions = getCities(selectedCountry);
+
+            // Clear existing city options
+            cityDropdown.innerHTML = '<option value="Select City" selected>Select City</option>';
+
+            // Populate the city dropdown with new options
+            for (var i = 0; i < cityOptions.length; i++) {
+                var cityName = cityOptions[i];
+                var option = document.createElement('option');
+                option.value = cityName;
+                option.text = cityName.charAt(0).toUpperCase() + cityName.slice(1);
+                cityDropdown.appendChild(option);
+            }
+
+            // Update timings based on the selected country and city
+            updateRamadanTimings();
+        }
+
+        // Function to get the list of cities for a given country
+        function getCities(country) {
+            // You can customize this function to fetch cities based on the selected country
+            // For simplicity, I'm providing a static list of cities for each country
+            var citiesByCountry = {
+                'pakistan': ['karachi', 'lahore', 'islamabad', 'rawalpindi', 'faisalabad', 'multan', 'peshawar', 'quetta', 'sialkot', 'gujranwala', 'sargodha', 'bahawalpur', 'sukkur', 'jhelum', 'abbottabad', 'mirpur', 'larkana', 'hyderabad'],
+                'usa': ['new york', 'los angeles', 'chicago', 'houston', 'miami'],
+                'uk': ['london', 'manchester', 'birmingham', 'glasgow', 'cardiff'],
+                'canada': ['toronto', 'vancouver', 'montreal', 'calgary', 'ottawa'],
+                'australia': ['sydney', 'melbourne', 'brisbane', 'perth', 'adelaide'],
+                'germany': ['berlin', 'munich', 'hamburg', 'cologne', 'frankfurt'],
+                'france': ['paris', 'marseille', 'lyon', 'toulouse', 'nice'],
+                'japan': ['tokyo', 'osaka', 'kyoto', 'nagoya', 'sapporo'],
+                'brazil': ['rio de janeiro', 'sao paulo', 'brasilia', 'salvador', 'fortaleza'],
+                'south africa': ['cape town', 'johannesburg', 'pretoria', 'durban', 'bloemfontein'],
+                'russia': ['moscow', 'saint petersburg', 'novosibirsk', 'yekaterinburg', 'nizhny novgorod'],
+                'china': ['beijing', 'shanghai', 'guangzhou', 'shenzhen', 'tianjin'],
+                'mexico': ['mexico city', 'guadalajara', 'monterrey', 'puebla', 'tijuana'],
+                'india': ['delhi', 'mumbai', 'kolkata', 'chennai', 'bangalore'],
+                'afghanistan': ['kabul', 'herat', 'mazar-i-sharif', 'kandahar', 'jalalabad'],
+                'albania': ['tirana', 'durres', 'vlore', 'shkoder', 'elbasan'],
+                'algeria': ['algiers', 'oran', 'constantine', 'batna', 'annaba'],
+                'andorra': ['andorra la vella', 'encamp', 'escaldes-engordany', 'ordino', 'la massana'],
+                'angola': ['luanda', 'lobito', 'huambo', 'benguela', 'kuito'],
+                'antigua and barbuda': ['saint johns', 'all saints', 'liberta', 'potterville', 'bolands'],
+                'argentina': ['buenos aires', 'cordoba', 'rosario', 'mendoza', 'la plata'],
+                'armenia': ['yerevan', 'gyumri', 'vanadzor', 'vagharshapat', 'hrazdan'],
+                'austria': ['vienna', 'graz', 'linz', 'salzburg', 'innsbruck'],
+                'azerbaijan': ['baku', 'ganja', 'sumqayit', 'mingachevir', 'lankaran'],
+                'bahamas': ['nassau', 'freeport', 'lucaya', 'marsh harbour', 'east end'],
+                'bahrain': ['manama', 'al-muharraq', 'ar-rifa', 'dar kulaib', 'madinat hamad'],
+                'bangladesh': ['dhaka', 'chittagong', 'khulna', 'rajshahi', 'comilla'],
+                'barbados': ['bridgetown', 'speightstown', 'oistins', 'bathsheba', 'holetown'],
+                'belarus': ['minsk', 'gomel', 'mogilev', 'vitebsk', 'hrodna'],
+                'belgium': ['brussels', 'antwerp', 'ghent', 'bruges', 'liege'],
+                'belize': ['belmopan', 'belize city', 'san ignacio', 'orange walk', 'dangriga'],
+                'benin': ['porto-novo', 'cotonou', 'parakou', 'djougou', 'bohicon'],
+                'bhutan': ['thimphu', 'phuntsholing', 'punakha', 'paro', 'ha'],
+                'bolivia': ['la paz', 'sucre', 'santa cruz de la sierra', 'cochabamba', 'oruro'],
+                'bosnia and herzegovina': ['sarajevo', 'banja luka', 'mostar', 'tuzla', 'zenica'],
+                'botswana': ['gaborone', 'francistown', 'molepolole', 'serowe', 'selibe-phikwe'],
+                'brunei': ['bandar seri begawan', 'kuala belait', 'seria', 'tutong', 'bangar'],
+                'bulgaria': ['sofia', 'plovdiv', 'varna', 'burgas', 'rousse'],
+                'burkina faso': ['ouagadougou', 'bobodioulasso', 'koudougou', 'ouahigouya', 'banfora'],
+                'burundi': ['bujumbura', 'muyinga', 'rumonge', 'gitega', 'ngozi'],
+                'cabo verde': ['praia', 'mindelo', 'assomada', 'santa maria', 'cova figueira'],
+                'cambodia': ['phnom penh', 'sihanoukville', 'battambang', 'siem reap', 'prey veng'],
+                'cameroon': ['yaounde', 'douala', 'bamenda', 'bafoussam', 'garoua'],
+                'canada': ['toronto', 'vancouver', 'montreal', 'calgary', 'ottawa'],
+                'central african republic': ['bangui', 'bimbo', 'berberati', 'kaga-bandoro', 'bambari'],
+                'chad': ['djamena', 'moundou', 'sagh', 'abecher', 'bitkine'],
+                'chile': ['santiago', 'valparaiso', 'concepcion', 'antofagasta', 'vina del mar'],
+                'china': ['beijing', 'shanghai', 'guangzhou', 'shenzhen', 'tianjin'],
+                'colombia': ['bogota', 'medellin', 'cali', 'barranquilla', 'cartagena'],
+                'comoros': ['moroni', 'mfumbuni', 'fomboni', 'domoni', 'tsemo'],
+                'congo': ['kinshasa', 'lubumbashi', 'mbuji-mayi', 'kisangani', 'kananga'],
+                'costa rica': ['san jose', 'limon', 'alajuela', 'heredia', 'puerto limon'],
+                'croatia': ['zagreb', 'split', 'rijeka', 'osijek', 'zadar'],
+                'cuba': ['havana', 'santiago de cuba', 'camaguey', 'holguin', 'santa clara'],
+                'cyprus': ['nicosia', 'limassol', 'larnaca', 'paphos', 'famagusta'],
+                'czech republic': ['prague', 'brno', 'ostrava', 'plzen', 'liberec'],
+                'denmark': ['copenhagen', 'aarhus', 'odense', 'aalborg', 'esbjerg'],
+                'djibouti': ['djibouti', 'ali sabieh', 'tadjoura', 'obock', 'dikhil'],
+                'dominica': ['roseau', 'portsmouth', 'marigot', 'berekua', 'mahaut'],
+                'dominican republic': ['santo domingo', 'santiago de los caballeros', 'santo domingo oeste', 'santo domingo este', 'santo domingo norte'],
+                'east timor': ['dili', 'suai', 'maliana', 'baucau', 'aileu'],
+                'ecuador': ['quito', 'guayaquil', 'quito', 'cuenca', 'machala'],
+                'egypt': ['cairo', 'alexandria', 'giza', 'shubra el-kheima', 'port said'],
+                'el salvador': ['san salvador', 'santa ana', 'san miguel', 'mejicanos', 'soyapango'],
+                'equatorial guinea': ['malabo', 'bata', 'ebebiyin', 'aconibe', 'anisoc'],
+                'eritrea': ['asmara', 'massawa', 'keren', 'asmara', 'assab'],
+                'estonia': ['tallinn', 'tartu', 'narva', 'parnu', 'viljandi'],
+                'ethiopia': ['addis ababa', 'dire dawa', 'addis ababa', 'mek\'ele', 'gondar'],
+                'fiji': ['suva', 'lautoka', 'nadi', 'labasa', 'ba'],
+                'finland': ['helsinki', 'espoo', 'tampere', 'vantaa', 'turku'],
+                'france': ['paris', 'marseille', 'lyon', 'toulouse', 'nice'],
+                'gabon': ['libreville', 'port-gentil', 'port-gentil', 'oyem', 'moanda'],
+                'gambia': ['banjul', 'serrekunda', 'brikama', 'bakau', 'banjul'],
+                'georgia': ['tbilisi', 'kutaisi', 'batumi', 'rustavi', 'zestafoni'],
+                'germany': ['berlin', 'munich', 'hamburg', 'cologne', 'frankfurt'],
+                'ghana': ['accra', 'kumasi', 'tamale', 'sekondi-takoradi', 'cape coast'],
+                'greece': ['athens', 'thessaloniki', 'patras', 'piraeus', 'larissa'],
+                'grenada': ['saint georges', 'grenville', 'gouyave'],
+                'guatemala': ['guatemala city', 'mixco', 'villa nueva', 'petapa', 'san juan sacatepequez'],
+                'Spain': ['madrid', 'barcelona', 'valencia', 'seville', 'zaragoza'],
+                'Sri Lanka': ['colombo', 'kandy', 'galle', 'jaffna', 'negombo'],
+                'Sudan': ['khartoum', 'omdurman', 'khartoum north', 'port sudan', 'kassala'],
+                'Suriname': ['paramaribo', 'lelydorp', 'nickerie', 'moengo', 'nieuw amsterdam'],
+                'Swaziland': ['mbabane', 'manzini', 'lobamba', 'siteki', 'piggs peak'],
+                'Sweden': ['stockholm', 'gothenburg', 'malmo', 'uppsala', 'västerås'],
+                'Switzerland': ['zurich', 'geneva', 'basel', 'bern', 'lausanne'],
+                'Syria': ['damascus', 'aleppo', 'homs', 'hama', 'latakia'],
+                'Taiwan': ['taipei', 'kaohsiung', 'taichung', 'tainan', 'hsinchu'],
+                'Tajikistan': ['dushanbe', 'khujand', 'kulob', 'qurghonteppa', 'isorqul'],
+                'Tanzania': ['dar es salaam', 'dodoma', 'mwanza', 'zanzibar city', 'arusha'],
+                'Thailand': ['bangkok', 'nonthaburi', 'nakhon ratchasima', 'chiang mai', 'hat yai'],
+                'Togo': ['lome', 'sokode', 'kara', 'palime', 'atakpame'],
+                'Tonga': ['nukualofa', 'neiafu', 'pangai', 'ohonua', 'haveluloto'],
+                'Trinidad': ['port of spain', 'san fernando', 'chaguanas', 'arima', 'point fortin'],
+                'Tunisia': ['tunis', 'sfax', 'sousse', 'kairouan', 'bizerte'],
+                'Turkey': ['istanbul', 'ankara', 'izmir', 'bursa', 'adana'],
+                'Turkmenistan': ['ashgabat', 'turkmenabat', 'dasoguz', 'mary', 'balkanabat'],
+                'Tuvalu': ['funafuti', 'vaiaku', 'fongafale', 'asau', 'savave'],
+                'Uganda': ['kampala', 'nansana', 'kira', 'mbarara', 'gulu'],
+                'Ukraine': ['kyiv', 'kharkiv', 'odessa', 'dnipro', 'donetsk'],
+                'United Arab Emirates': ['abu dhabi', 'dubai', 'sharjah', 'al ain', 'ajman'],
+                'United Kingdom': ['london', 'manchester', 'birmingham', 'glasgow', 'cardiff'],
+                'United States of America': ['new york', 'los angeles', 'chicago', 'houston', 'miami'],
+                'Uruguay': ['montevideo', 'salto', 'paysandu', 'las piedras', 'rivera'],
+                'Uzbekistan': ['tashkent', 'namangan', 'samarkand', 'andijan', 'nukus'],
+                'Vanuatu': ['port vila', 'lakatoro', 'saratamata', 'norsup', 'isangel'],
+                'Vatican': ['vatican city'],
+                'Venezuela': ['caracas', 'maracaibo', 'valencia', 'barquisimeto', 'maracay'],
+                'Vietnam': ['hanoi', 'ho chi minh city', 'da nang', 'hai phong', 'can tho'],
+                'Yemen': ['sanaa', 'taiz', 'aden', 'ibb', 'al mukalla'],
+                'Zambia': ['lusaka', 'ndola', 'kitwe', 'kabwe', 'chingola'],
+                'Zimbabwe': ['harare', 'bulawayo', 'chitungwiza', 'mutare', 'gweru'],
+
+            };
+
+            return citiesByCountry[country] || [];
+        }
+
+        // Function to update Ramadan timings based on the selected country and city
+
+        // Function to update Ramadan timings based on the selected country and city
+        // Assuming you have two dropdowns with the IDs 'country-dropdown' and 'city-dropdown'
+        var countryDropdown = document.getElementById('country-dropdown');
+        var cityDropdown = document.getElementById('city-dropdown');
+
+        // Add event listeners to both dropdowns
+        countryDropdown.addEventListener('change', updateRamadanTimings);
+        cityDropdown.addEventListener('change', updateRamadanTimings);
+
+        // Function to update Ramadan timings
+        function getCurrentMonth() {
+            var currentDate = new Date();
+            var currentMonth = currentDate.getMonth() + 1;
+            return currentMonth;
+        }
+
+        function getCurrentYear() {
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear();
+            return currentYear;
+        }
+        fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                var clientCity = data.city;
+                var clientCountry = data.country;
+                var mycountry = document.getElementById('mycountry');
+                var mycountry = document.getElementById('mycity');
+
+            })
+
+        function getCurrentMonth() {
+            var currentDate = new Date();
+            var currentMonth = currentDate.getMonth() + 1;
+            return currentMonth;
+        }
+
+        function getCurrentYear() {
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear();
+            return currentYear;
+        }
+
+        function getFormattedDate() {
+            var today = new Date();
+
+            var day = today.getDate();
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear();
+
+            var formattedDay = (day < 10) ? '0' + day : day;
+            var formattedMonth = (month < 10) ? '0' + month : month;
+
+            // Format the date as DD-MM-YYYY
+            var formattedDate = formattedDay + '-' + formattedMonth + '-' + year;
+
+            return formattedDate;
+        }
+
+        function updateRamadanTimings() {
+            var currentMonth = getCurrentMonth();
+            var currentYear = getCurrentYear();
+            var selectedCountry = countryDropdown.value;
+            var selectedCity = cityDropdown.value;
+
+            var currentMonth = getCurrentMonth();
+            var currentYear = getCurrentYear();
+            var formattedDate = getFormattedDate();
+            // API URL for Aladhan
+            var apiURL = 'https://api.aladhan.com/v1/calendarByCity';
+
+            // Fetch Ramadan timings using the selected country and city
+            fetch(`${apiURL}?city=${selectedCity}&country=${selectedCountry}&method=1`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the timings table
+                    var timingsTable = document.getElementById('ramadan-timings-table');
+                    timingsTable.innerHTML = '';
+                    // timingsTable.innerHTML = '<tr><th>تاریخ</th><th>سحری کے اوقات</th><th>افطاری کے اوقات</th></tr>';
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        var day = data.data[i];
+                        var date = day.date.gregorian.date;
+                        // if (date >= formattedDate) {
+                        var row = `<tr><td>${formatTime(day.timings.Isha)}</td><td>${formatTime(day.timings.Maghrib)}</td><td>${formatTime(day.timings.Asr)}</td><td>${formatTime(day.timings.Dhuhr)}</td><td>${formatTime(day.timings.Fajr)}</td><td>${date}</td></tr>`;
+                        timingsTable.innerHTML += row;
+                        // }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching Ramadan timings:', error);
+                });
+        }
+
+        // Function to format time
+        function formatTime(timeString) {
+            // Assuming the timeString is in the format 'HH:mm:ss'
+            var parts = timeString.split(':');
+            var hour = parseInt(parts[0], 10);
+            var minute = parseInt(parts[1], 10);
+            var period = hour >= 12 ? 'PM' : 'AM';
+
+            // Convert to 12-hour time format
+            hour = hour % 12 || 12;
+
+            return `${hour}:${minute < 10 ? '0' : ''}${minute} ${period}`;
+        }
+    </script>
+    
+</body>
+</html>
